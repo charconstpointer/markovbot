@@ -20,16 +20,12 @@ class Markov:
                 self.words[token].append(word_to_append)
 
     def gen_sentence(self, n) -> str:
-        word = " "
         sentence = []
-        next_word = ""
-        while not word[0].isupper():
-            word = random.choice(list(self.words.keys()))
-            next_word = word
-        sentence.append(next_word)
+        word = random.choice(list(self.words.keys()))
+        sentence.append(word)
         for i in range(n):
-            next_word = random.choice(list(self.words[next_word]))
-            sentence.append(next_word)
+            word = random.choice(list(self.words[word]))
+            sentence.append(word)
         return str.join(" ", sentence)
 
 
@@ -55,9 +51,9 @@ class Bot(discord.Client):
     @staticmethod
     def get_count(command: str) -> int:
         tokens = command.split(" ")
-        if tokens[2].isdigit() and 3 < int(tokens[2]) < 40:
+        if tokens[2].isdigit() and 3 < int(tokens[2]) < 101:
             return int(tokens[2])
-        return 7
+        return 10
 
 
 def main():
@@ -65,7 +61,6 @@ def main():
     markov = Markov()
     client = Bot(markov)
     client.run(token)
-
 
 if __name__ == '__main__':
     main()
